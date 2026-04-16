@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Líder HGW - Empoderamiento y Negocio</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <style>
+    :root {
+        --bg-dark: #0f020c; 
+        --panel-bg: rgba(30, 5, 25, 0.7); 
+        --text-main: #ffffff; 
+        --text-muted: #e0b0d5; 
+        --radius: 20px;
+        
+        --neon-pink: #ff007f;  
+        --neon-magenta: #bc13fe;   
+        --neon-gold: #ffd700;   
+        --neon-green: #39ff14; 
+        
+        --rgb-gradient: linear-gradient(90deg, #ff007f, #bc13fe, #ffd700, #ff007f); 
+        --rgb-speed: 8s; 
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    html { scroll-behavior: smooth; }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      overflow-x: hidden;
+      line-height: 1.6;
+      touch-action: manipulation;
+    }
+
+    h1, h2, h3, .font-orbitron { font-family: 'Orbitron', sans-serif; }
+
+    /* FONDO DINÁMICO */
+    .fondo-general {
+        position: fixed; inset: 0; z-index: -2;
+        background: radial-gradient(circle at 50% 50%, #2a0520, #0f020c);
+    }
+    .fondo-estrellas {
+        position: fixed; inset: 0; z-index: -1;
+        background-image: 
+            radial-gradient(white 1px, transparent 0),
+            radial-gradient(rgba(255, 0, 127, 0.3) 1px, transparent 0);
+        background-size: 50px 50px, 100px 100px;
+        opacity: 0.3;
+        animation: snowFall 100s linear infinite;
+    }
+
+    @keyframes snowFall {
+        from { background-position: 0 0; }
+        to { background-position: 500px 1000px; } 
+    }
+    
+    .container { width: 90%; max-width: 600px; margin: auto; padding: 40px 0; position: relative; z-index: 10; }
+
+    /* ANIMACIONES */
+    @keyframes shine-text { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+    @keyframes borderGlow { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    
+    @keyframes shake-img {
+        0% { transform: translateX(0) rotate(0deg); }
+        20% { transform: translateX(-6px) rotate(-4deg); }
+        40% { transform: translateX(6px) rotate(4deg); }
+        60% { transform: translateX(-6px) rotate(-4deg); }
+        80% { transform: translateX(6px) rotate(4deg); }
+        100% { transform: translateX(0) rotate(0deg); }
+    }
+
+    .shake-active { animation: shake-img 0.6s ease-in-out !important; }
+
+    /* PARTICULAS (LLUVIA DE HOJAS Y MONEDAS) A PANTALLA COMPLETA */
+    .particles-container {
+        position: fixed; 
+        top: 0; left: 0; width: 100%; height: 100%;
+        z-index: 1; 
+        pointer-events: none; 
+        overflow: hidden;
+    }
+
+    .particle {
+        position: absolute;
+        top: -40px; 
+        pointer-events: none;
+    }
+
+    /* SE AUMENTÓ EL TAMAÑO DE LAS MONEDAS Y HOJAS */
+    .moneda {
+        width: 24px; height: 24px;
+        background: radial-gradient(circle, #ffe066 0%, #ffb300 80%);
+        border-radius: 50%;
+        box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+    }
+
+    .hoja {
+        width: 20px; height: 30px;
+        background: linear-gradient(135deg, #4ade80, #16a34a);
+        border-radius: 0 100% 0 100%;
+        box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+    }
+
+    /* CAPA EFECTO DE CORAZONES AL TOCAR */
+    .heart-layer {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 9999; 
+    }
+
+    .heart {
+        position: absolute;
+        width: 36px; height: 36px;
+        transform-origin: center;
+        will-change: transform, opacity;
+        display: inline-block;
+        pointer-events: none;
+        user-select: none;
+        animation: rise 1200ms cubic-bezier(.22,.9,.35,1) forwards;
+    }
+    .heart svg { width: 100%; height: 100%; display: block; }
+    
+    @keyframes rise {
+        0% { transform: translateY(0) scale(0.9) rotate(0deg); opacity: 1; filter: drop-shadow(0 6px 10px rgba(0,0,0,0.45)); }
+        40% { transform: translateY(-40px) scale(1.15) rotate(12deg); opacity: 1; }
+        100% { transform: translateY(-160px) scale(0.85) rotate(-25deg); opacity: 0; }
+    }
+    
+    .heart.small { width: 22px; height: 22px; }
+    .heart.large { width: 48px; height: 48px; }
+    .heart.pop { animation-name: popRise; }
+
+    @keyframes popRise {
+        0% { transform: translateY(0) scale(0) rotate(0deg); opacity: 0; }
+        15% { transform: translateY(-6px) scale(1.25) rotate(8deg); opacity: 1; }
+        100% { transform: translateY(-160px) scale(0.85) rotate(-25deg); opacity: 0; }
+    }
+
+    /* PERFIL */
+    .perfil-wrapper {
+        position: relative;
+        text-align: center; 
+        margin-bottom: 40px;
+        padding: 20px;
+        z-index: 10;
+    }
+
+    .foto-perfil {
+        width: 150px; height: 150px; border-radius: 50%; 
+        object-fit: cover; 
+        object-position: center 15%; 
+        margin-bottom: 20px;
+        position: relative;
+        z-index: 2;
+        border: 4px solid transparent;
+        background: linear-gradient(var(--bg-dark), var(--bg-dark)) padding-box, var(--rgb-gradient) border-box;
+        background-size: 300% 300%;
+        animation: borderGlow 5s infinite linear, float 4s ease-in-out infinite;
+        box-shadow: 0 0 30px rgba(255, 0, 127, 0.4);
+        cursor: pointer; 
+    }<a href=""></a>
+    .perfil-wrapper h1 {
+        font-size: 1.8rem; text-transform: uppercase; margin-bottom: 10px;
+        background: var(--rgb-gradient); background-size: 200% auto;
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        animation: shine-text 5s linear infinite;
+        letter-spacing: 2px;
+    }
+    
+    .perfil-desc { color: var(--text-muted); font-size: 0.95rem; max-width: 450px; margin: auto; font-weight: 300; }
+
+    /* PANELES */
+    .card-vip {
+        background: var(--panel-bg);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: var(--radius);
+        padding: 25px;
+        margin-bottom: 30px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        position: relative;
+        overflow: hidden;
+        z-index: 10;
+    }
+
+    .card-vip::after {
+        content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+        transform: skewX(-25deg);
+        animation: shine-sweep 6s infinite;
+    }
+
+    @keyframes shine-sweep { 0% { left: -100%; } 20% { left: 150%; } 100% { left: 150%; } }
+
+    .foto-anuncio {
+        width: 100%; height: auto; max-height: 400px; object-fit: contain; border-radius: 12px; margin-bottom: 20px;
+        border: 1px solid rgba(255, 0, 127, 0.2);
+    }
+
+    /* BOTONES */
+    .btn {
+        display: inline-flex; justify-content: center; align-items: center; padding: 14px 20px;
+        border-radius: 12px; text-decoration: none; font-family: 'Orbitron', sans-serif; 
+        font-size: 0.8rem; font-weight: 700; text-transform: uppercase; transition: 0.4s;
+        border: none; cursor: pointer; width: 100%;
+    }
+
+    .btn-wsp {
+        background: var(--rgb-gradient); background-size: 200% auto; color: #000; 
+        box-shadow: 0 4px 15px rgba(255, 0, 127, 0.3);
+    }
+    .btn-wsp:active { transform: scale(0.95); }
+
+    .btn-info { 
+        background: rgba(255, 255, 255, 0.05); color: var(--text-main); 
+        border: 1px solid rgba(255, 255, 255, 0.2); 
+    }
+
+    .grid-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+
+    /* SISTEMA EDUCATIVO */
+    .titulo-seccion { 
+        text-align: center; color: var(--neon-gold); font-size: 1.1rem; 
+        margin-bottom: 20px; letter-spacing: 3px; 
+    }
+    .hora-tag {
+        background: rgba(255, 0, 127, 0.1); border: 1px solid var(--neon-pink);
+        padding: 10px; border-radius: 10px; text-align: center; margin-bottom: 20px;
+    }
+    .hora-tag span { font-family: 'Orbitron', sans-serif; color: var(--neon-pink); font-size: 1.3rem; }
+
+    .dias-list { display: flex; flex-direction: column; gap: 10px; }
+    .dia-item {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 12px 15px; background: rgba(0, 0, 0, 0.3); border-radius: 10px;
+        border-left: 3px solid var(--neon-magenta);
+    }
+    .dia-nombre { font-family: 'Orbitron', sans-serif; font-size: 0.75rem; color: var(--neon-magenta); }
+    .dia-tema { font-size: 0.85rem; color: var(--text-main); text-align: right; max-width: 60%; }
+
+    /* UBICACIÓN */
+    .lugar-box { display: flex; flex-direction: column; gap: 15px; }
+    .lugar-map-link {
+        background: rgba(255, 215, 0, 0.1); border: 1px solid var(--neon-gold);
+        color: var(--neon-gold); padding: 12px; border-radius: 10px; text-align: center;
+        text-decoration: none; font-family: 'Orbitron', sans-serif; font-size: 0.8rem;
+    }
+
+    .desc-extra {
+        max-height: 0; overflow: hidden; transition: max-height 0.5s ease-out;
+        font-size: 0.85rem; color: var(--text-muted); padding: 0 10px;
+    }
+    .desc-extra.show { max-height: 200px; padding: 15px 10px; }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- FONDOS -->
+  <div class="fondo-general"></div>
+  <div class="fondo-estrellas"></div>
+  
+  <!-- LLUVIA GLOBAL (Hojas y Monedas) -->
+  <div id="particles-js" class="particles-container"></div>
+  
+  <!-- CAPA DE CORAZONES AL TOCAR -->
+  <div class="heart-layer" id="heartLayer"></div>
+
+  <div class="container">
+    
+    <!-- PERFIL -->
+    <header class="perfil-wrapper">
+        <img id="perfil-img" src="https://i.postimg.cc/zfn75J0b/IMG-20260413-101109-638.jpg" alt="Líder HGW" class="foto-perfil">
+        <h1>DELMA SALUD Y NEGOCIO</h1>
+        <p class="perfil-desc">
+            Transformando vidas a través del bienestar y el emprendimiento digital. Equipo Global HGW.
+        </p>
+    </header>
+
+    <!-- ANUNCIO -->
+    <section class="card-vip">
+        <img src="https://i.postimg.cc/ryYryd3F/IMG-20260403-WA0000.jpg" alt="Negocio" class="foto-anuncio">
+        <h2 class="titulo-seccion" style="color: white; text-align: left;">PROMO ABRIL 4.300BS</h2>
+        <p style="font-size: 0.9rem; color: var(--text-muted);">Descubre cómo generar ingresos residuales con productos de consumo masivo y alta tecnología.</p>
+        
+        <div class="grid-btns">
+            <!-- SE ACTUALIZÓ EL MENSAJE DE WHATSAPP -->
+            <a href="https://wa.me/59177244790?text=Hola%20Delma%20me%20gustar%C3%ADa%20saber%20m%C3%A1s%20de%20la%20empresa%20HGW" target="_blank" class="btn btn-wsp">
+                <i class="fab fa-whatsapp" style="margin-right: 8px;"></i> WhatsApp
+            </a>
+            <button class="btn btn-info" onclick="toggleDetails(event)">
+                <i class="fas fa-plus" style="margin-right: 8px;"></i> Detalles
+            </button>
+        </div>
+        <div id="extraInfo" class="desc-extra">
+            • Plan de Ganancias Mutuo (Único en el mercado).<br>
+            • Productos con Turmalina, Arándanos y Café saludable.<br>
+            • Sin recompras obligatorias mensuales.
+        </div>
+    </section>
+
+    <!-- SISTEMA EDUCATIVO -->
+    <section class="card-vip">
+        <h2 class="titulo-seccion">SISTEMA EDUCATIVO</h2>
+        <div class="hora-tag">
+            <div style="font-size: 0.7rem; opacity: 0.7; margin-bottom: 3px;">CONEXIÓN NACIONAL</div>
+            <span><i class="far fa-clock"></i> 17:30 HRS</span>
+        </div>
+
+        <div class="dias-list">
+            <div class="dia-item">
+                <span class="dia-nombre">LUNES</span>
+                <span class="dia-tema">PRESENTACIÓN DE PRODUCTOS</span>
+            </div>
+            <div class="dia-item">
+                <span class="dia-nombre">MARTES</span>
+                <span class="dia-tema">OPORTUNIDAD DE NEGOCIO</span>
+            </div>
+            <div class="dia-item">
+                <span class="dia-nombre">MIÉRCOLES</span>
+                <span class="dia-tema">MENTORIA E LIDERASGO</span>
+            </div>
+            <div class="dia-item">
+                <span class="dia-nombre">JUEVES</span>
+                <span class="dia-tema">CAMBIOS CON HGW</span>
+            </div>
+            <div class="dia-item">
+                <span class="dia-nombre">VIERNES</span>
+                <span class="dia-tema">PRESENTACIÓN DEMOSTRACION DEGUSTACIÓN DE PRODUCTOS</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- UBICACIÓN -->
+    <section class="card-vip">
+        <h2 class="titulo-seccion">VISÍTANOS</h2>
+        <div class="lugar-box">
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <div style="background: var(--neon-pink); width: 50px; height: 50px; border-radius: 12px; display: grid; place-items: center; flex-shrink: 0;">
+                    <i class="fas fa-building" style="color: white; font-size: 1.5rem;"></i>
+                </div>
+                <div>
+                    <div style="font-weight: 700; font-size: 0.9rem;">OFICINA CENTRAL HGW</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Av. Principal entre calle 2 y 3, Piso 4.</div>
+                </div>
+            </div>
+            <a href="https://maps.app.goo.gl/3ACrmjsTWeSkHmec9?g_st=aw" target="_blank" class="lugar-map-link">
+                <i class="fas fa-location-arrow"></i> ABRIR EN GOOGLE MAPS
+            </a>
+        </div>
+    </section>
+
+  </div>
+
+  <script>
+    /* =========================================
+       1. GENERADOR DE LLUVIA DESDE EL TOPE (MÁS SUAVE)
+       ========================================= */
+    function createParticle() {
+        const container = document.getElementById('particles-js');
+        if(!container) return;
+
+        const particle = document.createElement('div');
+        const isMoneda = Math.random() > 0.5;
+        
+        particle.className = `particle ${isMoneda ? 'moneda' : 'hoja'}`;
+        
+        const startX = Math.random() * window.innerWidth;
+        particle.style.left = startX + 'px';
+        particle.style.top = '-40px'; 
+        
+        // Se aumentó el tiempo (duration) para que caigan mucho más suave y lento (de 8 a 15 segundos)
+        const duration = 8 + Math.random() * 7; 
+        particle.style.transition = `transform ${duration}s linear, opacity ${duration}s linear`;
+        
+        container.appendChild(particle);
+
+        setTimeout(() => {
+            particle.style.transform = `translateY(${window.innerHeight + 100}px) rotate(${Math.random() * 360}deg)`;
+            particle.style.opacity = '0';
+        }, 50);
+
+        setTimeout(() => {
+            particle.remove();
+        }, duration * 1000);
+    }
+
+    setInterval(createParticle, 600);
+
+
+    /* =========================================
+       2. EFECTO CORAZONES AL TOCAR LA PANTALLA
+       ========================================= */
+    (function(){
+      const layer = document.getElementById('heartLayer');
+      const COLORS = ["#ff4d6d", "#ff6b85", "#ff7ab6", "#ff9ad0", "#ffb3c7", "#ff758f", "#ff5f7a", "#ff8fb1"];
+      const HEART_SVG = (fill) => `
+        <svg viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path fill="${fill}" d="M23.6 0c-2.9 0-5.4 1.5-6.6 3.8C15.8 1.5 13.3 0 10.4 0 4.7 0 0 4.8 0 10.6c0 6.9 5.3 12.1 13.3 18.4L16 29.6l2.7-0.6C26.7 22.7 32 17.5 32 10.6 32 4.8 27.3 0 23.6 0z"/>
+        </svg>`;
+
+      function createHeart(x, y) {
+        const el = document.createElement('span');
+        el.className = 'heart';
+
+        const sizeClass = Math.random();
+        if (sizeClass < 0.25) el.classList.add('small');
+        else if (sizeClass > 0.85) el.classList.add('large');
+        if (Math.random() < 0.35) el.classList.add('pop');
+
+        const color = COLORS[Math.floor(Math.random() * COLORS.length)];
+        el.innerHTML = HEART_SVG(color);
+
+        const rectSize = 36;
+        el.style.left = (x - (rectSize / 2)) + 'px';
+        el.style.top = (y - (rectSize / 2)) + 'px';
+        el.style.transform = `rotate(${(Math.random() * 40) - 20}deg)`;
+        
+        const dur = 900 + Math.floor(Math.random() * 700);
+        el.style.animationDuration = dur + 'ms';
+        el.style.animationDelay = (Math.random() * 80) + 'ms';
+
+        layer.appendChild(el);
+        el.addEventListener('animationend', () => {
+          if (el && el.parentElement) el.parentElement.removeChild(el);
+        }, { once: true });
+      }
+
+      function handlePointer(x, y) {
+        const count = 1 + Math.floor(Math.random() * 3);
+        for (let i=0; i<count; i++){
+          createHeart(x + (Math.random() * 40 - 20), y + (Math.random() * 40 - 20));
+        }
+      }
+
+      window.addEventListener('click', (e) => { handlePointer(e.clientX, e.clientY); });
+      window.addEventListener('touchstart', (e) => {
+        for (let i = 0; i < e.touches.length; i++) handlePointer(e.touches[i].clientX, e.touches[i].clientY);
+      }, {passive:true});
+      window.addEventListener('touchmove', (e) => {
+        for (let i = 0; i < e.touches.length; i++){
+          if (Math.random() < 0.18) handlePointer(e.touches[i].clientX, e.touches[i].clientY);
+        }
+      }, {passive:true});
+    })();
+
+
+    /* =========================================
+       3. INTERACCIONES DEL PERFIL Y BOTONES
+       ========================================= */
+    function toggleDetails(e) {
+        if(e) e.stopPropagation(); 
+        const info = document.getElementById('extraInfo');
+        info.classList.toggle('show');
+    }
+
+    const observerOptions = { threshold: 0.1 };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = "1";
+                entry.target.style.transform = "translateY(0)";
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.card-vip').forEach(card => {
+        card.style.opacity = "0";
+        card.style.transform = "translateY(20px)";
+        card.style.transition = "all 0.8s ease-out";
+        observer.observe(card);
+    });
+
+    // AUDIO Y SACUDIDA DE FOTO
+    document.addEventListener("DOMContentLoaded", () => {
+        const perfilImg = document.getElementById('perfil-img');
+        const bgAudio = new Audio("https://www.dropbox.com/scl/fi/sm7gtduc8eamj0c4bnryn/Alok_-Alan-Walker-Headlights-Lyrics-ft.-KIDDO-MP3_160K.mp3?rlkey=turyzxelynu77zog74kb1oajj&st=jeznsnl1&dl=1");
+
+        setTimeout(() => {
+            perfilImg.classList.add('shake-active');
+            setTimeout(() => {
+                perfilImg.classList.remove('shake-active');
+            }, 600);
+        }, 6000);
+
+        perfilImg.addEventListener('click', (e) => {
+            e.stopPropagation(); 
+            
+            if (bgAudio.paused) {
+                bgAudio.play().catch(error => { console.log("Error de audio:", error); });
+            }
+            
+            perfilImg.classList.add('shake-active');
+            setTimeout(() => { perfilImg.classList.remove('shake-active'); }, 600);
+        });
+    });
+  </script>
+</body>
+</html>
+
+
+```
