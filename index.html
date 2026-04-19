@@ -2,345 +2,301 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Postulación Oficial | Toni - Reclutamiento</title>
-    <!-- Tipografía Robusta y Corporativa + Orbitron para el tema Neón -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
     <style>
-        /* Variables del Tema Oscuro Neón (Mapeadas a las estructuras anteriores) */
         :root {
             --bg-dark: #0f020c; 
-            --panel-bg: rgba(30, 5, 25, 0.7); 
             --text-main: #ffffff; 
             --text-muted: #e0b0d5; 
-            
-            /* Colores dinámicos adaptados al Neón (Fucsia, Magenta, Dorado) */
-            --color-blue: #bc13fe;    /* Magenta Neón */
+            --color-blue: #bc13fe;    
             --color-light-blue: #ff9ad0;
-            --color-red: #ff007f;     /* Fucsia Neón */
-            --color-orange: #ffd700;  /* Dorado Neón */
-            --color-green: #39ff14;   /* Verde Neón */
-            
-            --card-bg: rgba(30, 5, 25, 0.75);
-            --card-border: rgba(255, 255, 255, 0.1);
-            --text-dark: #ffffff;
+            --color-red: #ff007f;     
+            --color-orange: #ffd700;  
+            --color-green: #39ff14;   
+            --card-bg: rgba(30, 5, 25, 0.65);
+            --card-border: rgba(255, 255, 255, 0.08);
         }
 
-        /* --- FONDOS DINÁMICOS OSCUROS --- */
+        * { box-sizing: border-box; }
+
         body {
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-dark);
             color: var(--text-main);
             overflow-x: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 40px 15px;
+            display: flex; justify-content: center; align-items: flex-start;
+            min-height: 100vh; 
+            padding: 20px 15px 40px 15px; /* Espaciado adaptado para móvil */
             touch-action: manipulation;
         }
 
         .fondo-general {
             position: fixed; inset: 0; z-index: -2;
-            background: radial-gradient(circle at 50% 50%, #2a0520, #0f020c);
+            background: radial-gradient(circle at 50% 30%, #2a0520, #0f020c 70%);
         }
 
-        .fondo-estrellas {
-            position: fixed; inset: 0; z-index: -1;
-            background-image: 
-                radial-gradient(white 1px, transparent 0),
-                radial-gradient(rgba(255, 0, 127, 0.3) 1px, transparent 0);
-            background-size: 50px 50px, 100px 100px;
-            opacity: 0.3;
-            animation: snowFall 100s linear infinite;
-        }
-
-        @keyframes snowFall {
-            from { background-position: 0 0; }
-            to { background-position: 500px 1000px; } 
-        }
-
-        /* --- PARTICULAS Y CORAZONES --- */
-        .particles-container {
-            position: fixed; 
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1; pointer-events: none; overflow: hidden;
-        }
-
-        .particle { position: absolute; top: -40px; pointer-events: none; }
-        .moneda {
-            width: 24px; height: 24px;
-            background: radial-gradient(circle, #ffe066 0%, #ffb300 80%);
-            border-radius: 50%; box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
-        }
-        .hoja {
-            width: 20px; height: 30px;
-            background: linear-gradient(135deg, #4ade80, #16a34a);
-            border-radius: 0 100% 0 100%; box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
-        }
-
+        /* --- CORAZONES AL TOCAR --- */
         .heart-layer { position: fixed; inset: 0; pointer-events: none; z-index: 9999; }
         .heart {
-            position: absolute; width: 36px; height: 36px; transform-origin: center;
+            position: absolute; width: 30px; height: 30px; transform-origin: center;
             will-change: transform, opacity; pointer-events: none;
-            animation: rise 1200ms cubic-bezier(.22,.9,.35,1) forwards;
+            animation: rise 1000ms ease-out forwards;
         }
         .heart svg { width: 100%; height: 100%; display: block; }
         @keyframes rise {
-            0% { transform: translateY(0) scale(0.9) rotate(0deg); opacity: 1; filter: drop-shadow(0 6px 10px rgba(0,0,0,0.45)); }
-            40% { transform: translateY(-40px) scale(1.15) rotate(12deg); opacity: 1; }
-            100% { transform: translateY(-160px) scale(0.85) rotate(-25deg); opacity: 0; }
-        }
-        .heart.small { width: 22px; height: 22px; }
-        .heart.large { width: 48px; height: 48px; }
-        .heart.pop { animation-name: popRise; }
-        @keyframes popRise {
-            0% { transform: translateY(0) scale(0) rotate(0deg); opacity: 0; }
-            15% { transform: translateY(-6px) scale(1.25) rotate(8deg); opacity: 1; }
-            100% { transform: translateY(-160px) scale(0.85) rotate(-25deg); opacity: 0; }
+            0% { transform: translateY(0) scale(0.8); opacity: 1; }
+            100% { transform: translateY(-120px) scale(1.2); opacity: 0; }
         }
 
+        /* --- CONTENEDOR PRINCIPAL --- */
         .container {
-            width: 100%; max-width: 480px;
-            display: flex; flex-direction: column; gap: 25px;
+            width: 100%; max-width: 440px; /* Ancho ideal para celulares */
+            display: flex; flex-direction: column; 
+            gap: 20px; /* Espaciado estético entre tarjetas */
             position: relative; z-index: 10;
         }
 
-        /* --- ESTRUCTURA TONI MODIFICADA A NEÓN --- */
+        /* --- TARJETAS CORPORATIVAS (PANELES) --- */
         .corporate-card {
             background: var(--card-bg);
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--card-border);
-            border-radius: 24px; padding: 35px 25px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            border-radius: 28px; /* Bordes más redondeados y amigables */
+            padding: 30px 20px; /* Respiro interno optimizado */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.1);
             text-align: center; position: relative; overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .corporate-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), 0 0 25px rgba(255, 0, 127, 0.2);
+            transition: transform 0.3s ease;
         }
 
-        /* Luces giratorias de la Foto */
-        .profile-wrapper {
-            position: relative; width: 140px; height: 140px;
-            margin: 0 auto 20px auto; display: flex;
-            justify-content: center; align-items: center; border-radius: 50%;
+        /* --- ESTILO DE PORTADA --- */
+        .cover-card {
+            padding: 0; 
+            height: 380px; /* Altura imponente para la portada */
             cursor: pointer;
+            border-radius: 32px; /* Aún más redondo para ser la portada */
+            display: flex; flex-direction: column; justify-content: flex-end;
         }
-        .profile-wrapper::before, .profile-wrapper::after {
-            content: ''; position: absolute; inset: -5px; border-radius: 50%; z-index: 1;
-        }
-        .profile-wrapper::before {
-            background: conic-gradient(from 0deg, transparent 0%, transparent 40%, var(--color-blue) 80%, var(--color-red) 100%);
-            animation: spinBorder 4s linear infinite;
-        }
-        .profile-wrapper::after {
-            background: conic-gradient(from 180deg, transparent 0%, transparent 50%, var(--color-orange) 100%);
-            animation: spinBorder 3s linear infinite reverse;
-        }
-        .profile-inner-bg {
-            position: absolute; inset: 3px; background-color: var(--bg-dark); /* Ajuste oscuro */
-            border-radius: 50%; z-index: 2;
-        }
-        .profile-img {
-            position: relative; z-index: 3; width: 130px; height: 130px;
-            border-radius: 50%; object-fit: cover; border: 2px solid transparent;
-        }
-        
-        @keyframes spinBorder { 100% { transform: rotate(360deg); } }
-        @keyframes shake-img {
-            0% { transform: translateX(0) rotate(0deg); }
-            20% { transform: translateX(-6px) rotate(-4deg); }
-            40% { transform: translateX(6px) rotate(4deg); }
-            60% { transform: translateX(-6px) rotate(-4deg); }
-            80% { transform: translateX(6px) rotate(4deg); }
-            100% { transform: translateX(0) rotate(0deg); }
-        }
-        .shake-active { animation: shake-img 0.6s ease-in-out !important; }
 
-        h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 26px; margin: 10px 0 5px 0; font-weight: 900;
-            background: linear-gradient(90deg, var(--color-blue), var(--color-red), var(--color-orange), var(--color-blue));
-            background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: glowButton 4s linear infinite;
-            letter-spacing: 1px;
+        .cover-img-container {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;
         }
+
+        .cover-img-container img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            object-position: center 15%; /* Centrado estético del rostro */
+        }
+
+        .cover-fade {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 70%;
+            background: linear-gradient(to bottom, rgba(15,2,12,0) 0%, rgba(15,2,12,0.7) 50%, rgba(15,2,12,1) 100%);
+            z-index: 2;
+        }
+
+        .cover-text {
+            position: relative; z-index: 3;
+            text-align: left; padding: 30px 25px;
+            width: 100%;
+        }
+
+        .cover-text h1 {
+            font-family: 'Orbitron', sans-serif; font-size: 32px; 
+            margin: 0 0 10px 0; font-weight: 900; line-height: 1.1;
+            background: linear-gradient(90deg, var(--color-blue), var(--color-red), var(--color-orange));
+            background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: gradientMove 5s linear infinite;
+        }
+
+        .role-badge {
+            display: inline-block;
+            background: rgba(255, 215, 0, 0.15);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px; border-radius: 20px;
+        }
+
         .role-title {
             color: var(--color-orange); font-family: 'Orbitron', sans-serif;
-            font-weight: 900; font-size: 14px; text-transform: uppercase; letter-spacing: 2px; margin: 0;
+            font-weight: 900; font-size: 14px; 
+            text-transform: uppercase; letter-spacing: 1.5px; margin: 0;
         }
 
-        /* --- TEMPORIZADOR Y REMUNERACIÓN NEÓN --- */
-        .offer-section {
-            border-top: 5px solid transparent;
-            background: linear-gradient(var(--card-bg), var(--card-bg)) padding-box,
-                        linear-gradient(90deg, var(--color-blue), var(--color-orange), var(--color-red)) border-box;
+        @keyframes shake-img {
+            0%, 100% { transform: translateX(0) rotate(0deg); }
+            25% { transform: translateX(-4px) rotate(-1deg); }
+            75% { transform: translateX(4px) rotate(1deg); }
         }
+        .shake-active { animation: shake-img 0.4s ease-in-out !important; }
+
+        /* --- SECCIÓN OFERTA Y TEMPORIZADOR --- */
+        .offer-section { border-top: 4px solid var(--color-red); }
+        
         .urgency-title {
             font-family: 'Orbitron', sans-serif;
             color: var(--color-red); font-size: 16px; font-weight: 900;
-            text-transform: uppercase; margin-bottom: 20px; animation: pulseText 2s infinite;
+            text-transform: uppercase; margin-bottom: 20px; letter-spacing: 1px;
+            animation: pulseText 2s infinite;
         }
         @keyframes pulseText { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
 
-        .countdown { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
+        .countdown { 
+            display: flex; justify-content: space-between; gap: 8px; margin-bottom: 25px; 
+        }
         .time-box {
-            background: rgba(0, 0, 0, 0.6); border-radius: 12px; padding: 12px 10px;
-            min-width: 65px; border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.5); border-radius: 16px; padding: 12px 5px;
+            flex: 1; border: 1px solid rgba(255, 255, 255, 0.08);
             position: relative; overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
         .time-box::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
             background: linear-gradient(90deg, var(--color-blue), var(--color-orange));
         }
-        .time-box span { font-family: 'Orbitron', sans-serif; display: block; font-size: 26px; font-weight: 900; line-height: 1.2; color: #fff; }
-        .time-box small { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 800; }
+        .time-box span { font-family: 'Orbitron', sans-serif; display: block; font-size: 28px; font-weight: 900; color: #fff; line-height: 1.1; }
+        .time-box small { font-size: 12px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
 
         .progress-container {
-            width: 100%; height: 22px; background: rgba(0, 0, 0, 0.5);
-            border-radius: 12px; margin-bottom: 10px; overflow: hidden; position: relative;
+            width: 100%; height: 24px; background: rgba(0, 0, 0, 0.6);
+            border-radius: 12px; margin-bottom: 12px; overflow: hidden; position: relative;
+            border: 1px solid rgba(255,255,255,0.05);
         }
         .progress-bar {
             height: 100%; width: 0%; 
             background: linear-gradient(90deg, var(--color-blue), var(--color-red), var(--color-orange));
-            background-size: 200% 200%; border-radius: 12px; transition: width 0.5s ease-out;
-            animation: gradientMove 3s ease infinite;
+            background-size: 200% 100%; border-radius: 12px; 
+            transition: width 2s cubic-bezier(0.25, 1, 0.5, 1); 
+            animation: gradientMove 4s ease infinite;
+            position: relative;
         }
         .progress-bar::after {
             content: ""; position: absolute; top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(-45deg, rgba(255,255,255,0.2) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.2) 75%, transparent 75%, transparent);
-            background-size: 30px 30px; animation: waveProgress 1.5s linear infinite;
+            background: linear-gradient( -45deg, rgba(255,255,255,0.2) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.2) 75%, transparent 75%, transparent );
+            background-size: 30px 30px; border-radius: 12px;
+            animation: moveStripes 1.5s linear infinite;
         }
+        
+        @keyframes moveStripes { 0% { background-position: 0 0; } 100% { background-position: 30px 30px; } }
         @keyframes gradientMove { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        @keyframes waveProgress { 0% { background-position: 0 0; } 100% { background-position: 30px 30px; } }
-        .progress-text { font-size: 13px; color: var(--text-muted); font-weight: 700; margin-bottom: 25px; display: block; }
 
+        .progress-text { font-size: 14px; color: var(--text-muted); font-weight: 600; margin-bottom: 25px; display: block; }
+
+        /* --- CAJA DE SALARIO --- */
         .salary-box {
-            background: rgba(0, 0, 0, 0.4); border-radius: 16px; padding: 20px;
-            border: 1px solid rgba(255, 215, 0, 0.3);
+            background: rgba(0, 0, 0, 0.4); border-radius: 20px; padding: 20px 15px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
         }
         .dark-humor {
-            font-size: 13px; color: #fff; margin-bottom: 15px; font-weight: 700;
-            background: rgba(0, 0, 0, 0.6); padding: 12px; border-radius: 10px;
-            border-left: 5px solid var(--color-orange); text-align: left;
+            font-size: 14px; color: #fff; margin-bottom: 20px; font-weight: 600;
+            background: rgba(0, 0, 0, 0.5); padding: 12px 15px; border-radius: 12px;
+            border-left: 4px solid var(--color-orange); text-align: left; line-height: 1.4;
         }
-        .salary-box p { margin: 12px 0; font-size: 17px; font-weight: 800; display: flex; justify-content: space-between; align-items: center; color: var(--text-main); }
+        .salary-row { 
+            display: flex; justify-content: space-between; align-items: center; 
+            margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .salary-row:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+        
+        .salary-label { font-size: 16px; font-weight: 700; color: var(--text-muted); }
+        .salary-label.highlight { color: #fff; font-size: 18px; }
+        
         .price-tag {
             font-family: 'Orbitron', sans-serif; color: var(--color-red); font-weight: 900; font-size: 20px;
-            background: rgba(255, 0, 127, 0.15); padding: 4px 12px; border-radius: 8px; border: 1px solid rgba(255,0,127,0.3);
+            background: rgba(255, 0, 127, 0.1); padding: 6px 14px; border-radius: 10px; border: 1px solid rgba(255,0,127,0.3);
         }
         .price-tag.mensual {
-            font-size: 24px; color: #ffffff; background: linear-gradient(45deg, var(--color-blue), var(--color-red));
-            box-shadow: 0 4px 15px rgba(255, 0, 127, 0.4); border: none;
+            font-size: 26px; color: #ffffff; background: linear-gradient(45deg, var(--color-blue), var(--color-red));
+            border: none; box-shadow: 0 4px 15px rgba(255,0,127,0.3);
         }
 
-        /* --- BOTÓN ACCIÓN LUMINOSO --- */
-        .btn-action {
-            display: block; width: 100%; font-family: 'Orbitron', sans-serif;
-            color: white; font-size: 17px; font-weight: 900; padding: 20px;
-            border-radius: 16px; text-transform: uppercase; letter-spacing: 1px;
-            border: none; cursor: pointer; position: relative; z-index: 1;
-            background: linear-gradient(90deg, var(--color-blue), var(--color-red), var(--color-orange), var(--color-blue));
-            background-size: 300% 100%; animation: glowButton 4s infinite linear;
-            box-shadow: 0 10px 25px rgba(255, 0, 127, 0.4);
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* --- LISTAS Y CONTACTO --- */
+        h2 { font-family: 'Orbitron', sans-serif; font-size: 22px; font-weight: 900; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;}
+        
+        .req-badge {
+            background: rgba(255, 215, 0, 0.1); color: var(--color-orange); 
+            padding: 8px 20px; border-radius: 20px; font-weight: 800; font-size: 15px; 
+            margin-bottom: 25px; display: inline-block; border: 1px solid rgba(255,215,0,0.3);
         }
-        @keyframes glowButton { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
-        .btn-action:hover { transform: scale(1.03) translateY(-2px); box-shadow: 0 15px 35px rgba(255, 0, 127, 0.6); }
 
-        /* --- MAPA Y LISTAS --- */
         ul.job-list { list-style: none; padding: 0; margin: 0 0 25px 0; text-align: left; }
         ul.job-list li {
-            background: rgba(0, 0, 0, 0.5); margin-bottom: 12px; padding: 15px; border-radius: 10px;
-            font-size: 15px; font-weight: 700; display: flex; align-items: center;
-            border-left: 5px solid var(--color-blue); color: #fff;
-        }
-        .supervisor-contact {
-            font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 20px;
-            background: rgba(0, 0, 0, 0.5); padding: 15px; border-radius: 12px;
-            border: 2px dashed var(--color-orange);
+            background: rgba(0, 0, 0, 0.4); margin-bottom: 12px; padding: 16px 20px; border-radius: 16px;
+            font-size: 16px; font-weight: 600; display: flex; align-items: center;
+            border-left: 5px solid var(--color-blue); color: #fff; line-height: 1.4;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
 
-        .map-section { padding: 25px; }
-        .map-wrapper {
-            display: block; border-radius: 16px; overflow: hidden; position: relative; padding: 4px;
-            background: linear-gradient(45deg, var(--color-blue), var(--color-red), var(--color-orange));
-            background-size: 200% 200%; animation: gradientMove 3s ease infinite, floatMap 4s ease-in-out infinite;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        .supervisor-contact {
+            font-size: 16px; font-weight: 700; color: var(--text-muted); margin-bottom: 25px;
+            background: rgba(0, 0, 0, 0.4); padding: 20px; border-radius: 20px;
+            border: 1px dashed rgba(255,215,0,0.4);
         }
-        @keyframes floatMap { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        .supervisor-contact .num {
+            color: var(--color-red); font-family: 'Orbitron', sans-serif; font-size: 28px; 
+            display: block; margin-top: 8px; letter-spacing: 2px; font-weight: 900;
+            text-shadow: 0 0 10px rgba(255,0,127,0.4);
+        }
+
+        /* --- BOTONES --- */
+        .btn-action {
+            display: block; width: 100%; font-family: 'Orbitron', sans-serif;
+            color: white; font-size: 18px; font-weight: 900; padding: 22px 15px;
+            border-radius: 20px; text-transform: uppercase; letter-spacing: 1px;
+            border: none; cursor: pointer; position: relative; z-index: 1;
+            background: linear-gradient(90deg, var(--color-blue), var(--color-red));
+            box-shadow: 0 8px 25px rgba(255, 0, 127, 0.4);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .btn-action:active { transform: translateY(2px); box-shadow: 0 4px 15px rgba(255, 0, 127, 0.4); }
+
+        /* --- MAPA --- */
+        .map-section { padding: 30px 20px; }
+        .map-wrapper {
+            display: block; border-radius: 20px; overflow: hidden; position: relative; padding: 3px;
+            background: linear-gradient(45deg, var(--color-blue), var(--color-red));
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            animation: floatMap 4s ease-in-out infinite; 
+            margin-top: 15px;
+        }
+        @keyframes floatMap { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+        
         .map-wrapper::after {
             content: '📍 Toca para abrir GPS'; position: absolute; bottom: 15px; left: 50%;
             transform: translateX(-50%); background: rgba(0, 0, 0, 0.85); color: white;
-            padding: 10px 24px; border-radius: 30px; font-size: 14px; font-weight: 800;
-            width: max-content; animation: pulseBadge 2s infinite; z-index: 5;
+            padding: 10px 24px; border-radius: 30px; font-size: 13px; font-weight: 800;
+            width: max-content; z-index: 5; backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.1);
         }
-        @keyframes pulseBadge { 0%, 100% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.05); background: var(--color-red); } }
-        .map-img { width: 100%; height: auto; display: block; border-radius: 12px; transition: transform 0.5s ease; }
-        .map-wrapper:hover .map-img { transform: scale(1.08); }
-
-        /* --- MODAL --- */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 2, 10, 0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            z-index: 9999; display: none; justify-content: center; align-items: center;
-            padding: 20px; opacity: 0; transition: opacity 0.3s ease;
-        }
-        .modal-overlay.active { display: flex; opacity: 1; }
-        .modal-content {
-            background: var(--bg-dark); border-radius: 24px; padding: 25px; width: 100%; max-width: 380px;
-            position: relative; transform: scale(0.8) translateY(30px); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8); text-align: center; border-top: 6px solid var(--color-red);
-        }
-        .modal-overlay.active .modal-content { transform: scale(1) translateY(0); }
-        .modal-close {
-            position: absolute; top: 15px; right: 20px; font-size: 32px; color: var(--text-muted);
-            cursor: pointer; font-weight: 600; line-height: 1; transition: color 0.2s;
-        }
-        .modal-close:hover { color: var(--color-red); }
-        .modal-img {
-            width: 100%; border-radius: 16px; margin-bottom: 15px; object-fit: contain;
-            background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1);
-        }
-        .modal-number {
-            font-family: 'Orbitron', sans-serif; font-size: 28px; font-weight: 900;
-            background: linear-gradient(90deg, var(--color-blue), var(--color-red));
-            -webkit-background-clip: text; background-clip: text; color: transparent;
-            margin: 5px 0 20px 0; letter-spacing: 2px; display: inline-block;
-            padding: 8px 20px; border-radius: 12px; border: 1px solid rgba(255, 0, 127, 0.2);
-        }
+        .map-img { width: 100%; height: auto; display: block; border-radius: 17px; }
 
     </style>
 </head>
 <body>
 
-    <!-- FONDOS OSCUROS -->
     <div class="fondo-general"></div>
-    <div class="fondo-estrellas"></div>
-    
-    <!-- LLUVIA GLOBAL (Hojas y Monedas) -->
-    <div id="particles-js" class="particles-container"></div>
-    
-    <!-- CAPA DE CORAZONES AL TOCAR -->
     <div class="heart-layer" id="heartLayer"></div>
 
     <div class="container">
-        <!-- Cabecera Perfil -->
-        <div class="corporate-card">
-            <div class="profile-wrapper" id="perfil-wrapper">
-                <div class="profile-inner-bg"></div>
-                <img src="https://i.postimg.cc/SQCyghrD/IMG-20250419-153933-174.jpg" alt="Toni" class="profile-img" id="perfil-img">
+        
+        <!-- Cabecera Perfil (Estilo Portada Glassmorphism) -->
+        <div class="corporate-card cover-card" id="perfil-wrapper">
+            <div class="cover-img-container">
+                <img src="https://i.postimg.cc/SQCyghrD/IMG-20250419-153933-174.jpg" alt="Toni">
+                <div class="cover-fade"></div>
             </div>
-            <h1>Hola, soy Toni P.</h1>
-            <p class="role-title">🔥 Requerimos Personal 🔥</p>
+            
+            <div class="cover-text">
+                <h1>Hola, soy Toni P.</h1>
+                <div class="role-badge">
+                    <p class="role-title">🔥 Requerimos Personal 🔥</p>
+                </div>
+            </div>
         </div>
 
-        <!-- Temporizador y Remuneración -->
+        <!-- Temporizador y Oferta -->
         <div class="corporate-card offer-section">
             <div class="urgency-title">Proceso Abierto hasta el <span id="end-date-text"></span></div>
             
@@ -357,19 +313,24 @@
             <span class="progress-text">Cupos de entrevista reduciéndose rápidamente...</span>
 
             <div class="salary-box">
-                <div class="dark-humor">
-                    "Turnos disponibles: mañana o tarde (4 horas)"
+                <div class="dark-humor">"Turnos disponibles: mañana o tarde (4 horas)"</div>
+                
+                <div class="salary-row">
+                    <span class="salary-label">Ingreso Semanal</span>
+                    <span class="price-tag">600 Bs</span>
                 </div>
-                <p>Ingreso Semanal: <span class="price-tag">600 Bs</span></p>
-                <p>Ingreso Mensual: <span class="price-tag mensual">2.400 Bs</span></p>
+                <div class="salary-row">
+                    <span class="salary-label highlight">Ingreso Mensual</span>
+                    <span class="price-tag mensual">2.400 Bs</span>
+                </div>
             </div>
         </div>
 
-        <!-- Información de Vacantes -->
+        <!-- Info Vacantes -->
         <div class="corporate-card">
-            <h2 style="font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 900; margin-bottom: 20px; text-transform: uppercase;">Puestos Administrativos</h2>
+            <h2>Puestos Administrativos</h2>
             
-            <div style="background: rgba(255, 215, 0, 0.1); color: var(--color-orange); padding: 10px 20px; border-radius: 30px; font-weight: 800; font-size: 14px; margin-bottom: 20px; display: inline-block; border: 1px solid rgba(255,215,0,0.3);">
+            <div class="req-badge">
                 🎯 Requisito: 18 a 28 años
             </div>
 
@@ -380,44 +341,31 @@
             </ul>
 
             <div class="supervisor-contact">
-                👨‍💼 Directo con el supervisor: <br>
-                <span style="color: var(--color-red); font-family: 'Orbitron', sans-serif; font-size: 22px; display: inline-block; margin-top: 5px; letter-spacing: 2px;">75954334</span>
+                👨‍💼 Directo con el supervisor:
+                <span class="num">75954334</span>
             </div>
 
-            <div style="display: flex; flex-direction: column; gap: 15px;">
-                <a href="https://wa.me/59175954334?text=Hola%20Toni%20P.%20Me%20gustar%C3%ADa%20agendarme%20en%20la%20entrevista" target="_blank" class="btn-action" style="box-sizing: border-box; background: linear-gradient(90deg, #0044cc, #007bff, #0044cc); box-shadow: 0 10px 25px rgba(0, 123, 255, 0.4); text-align: center; text-decoration: none;">
-                    Continuar a WhatsApp
-                </a>
-                <a href="#" class="btn-action" style="box-sizing: border-box; text-align: center; text-decoration: none;">
-                    Prefiero por QR
-                </a>
-            </div>
+            <a href="https://wa.me/59175954334?text=Hola%20Toni%20P.%20Me%20gustar%C3%ADa%20agendarme%20en%20la%20entrevista" target="_blank" class="btn-action" style="text-align: center; text-decoration: none;">Agendar Entrevista Oficial</a>
         </div>
 
         <!-- Mapa -->
         <div class="corporate-card map-section">
-            <p style="font-family: 'Orbitron', sans-serif; margin: 0 0 5px 0; font-weight: 900; font-size: 18px; color: var(--text-main); text-transform: uppercase;">Ubicación de Entrevistas</p>
-            <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px; font-weight: 600;"> Bolivia - La Paz - El Alto <br> Al frente de la Alcaldía quemada </p>
+            <p style="font-family: 'Orbitron', sans-serif; margin: 0 0 8px 0; font-weight: 900; font-size: 20px; text-transform: uppercase;">Ubicación de Entrevistas</p>
+            <p style="font-size: 14px; color: var(--text-muted); margin: 0; font-weight: 400; line-height: 1.5;"> Bolivia - La Paz - El Alto <br> Al frente de la Alcaldía quemada </p>
             
-            <!-- ENLACE GPS ACTUALIZADO AQUÍ -->
             <a href="https://maps.app.goo.gl/RLQBz58jcMQYmAWQ7" target="_blank" class="map-wrapper">
-                <img src="https://i.postimg.cc/R02BTsnZ/IMG-20260325-093736-975.jpg" alt="Mapa El Alto (Alcaldía Quemada)" class="map-img">
+                <img src="https://i.postimg.cc/R02BTsnZ/IMG-20260325-093736-975.jpg" alt="Mapa El Alto" class="map-img">
             </a>
         </div>
     </div>
 
     <script>
-        /* =========================================
-           1. SISTEMA DINÁMICO DEL TIEMPO (Toni)
-           ========================================= */
+        /* 1. Temporizador */
         function setupTimer() {
             const now = new Date();
             const currentYear = now.getFullYear();
-            const targetDate = new Date(currentYear, 3, 30, 23, 59, 59); // 30 de abril
+            const targetDate = new Date(currentYear, 3, 30, 23, 59, 59); 
             
-            let diff = targetDate.getTime() - now.getTime();
-            if (diff < 0) diff = 0;
-
             document.getElementById('end-date-text').innerText = "30 de Abril";
 
             function updateCountdown() {
@@ -425,133 +373,68 @@
                 let timeRemaining = targetDate.getTime() - currentDate.getTime();
                 if (timeRemaining < 0) timeRemaining = 0;
 
-                const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((timeRemaining / (1000 * 60 * 60)) % 24);
-                const minutes = Math.floor((timeRemaining / 1000 / 60) % 60);
-                const seconds = Math.floor((timeRemaining / 1000) % 60);
-
-                document.getElementById('days').innerText = days.toString().padStart(2, '0');
-                document.getElementById('hours').innerText = hours.toString().padStart(2, '0');
-                document.getElementById('minutes').innerText = minutes.toString().padStart(2, '0');
-                document.getElementById('seconds').innerText = seconds.toString().padStart(2, '0');
+                document.getElementById('days').innerText = Math.floor(timeRemaining / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+                document.getElementById('hours').innerText = Math.floor((timeRemaining / (1000 * 60 * 60)) % 24).toString().padStart(2, '0');
+                document.getElementById('minutes').innerText = Math.floor((timeRemaining / 1000 / 60) % 60).toString().padStart(2, '0');
+                document.getElementById('seconds').innerText = Math.floor((timeRemaining / 1000) % 60).toString().padStart(2, '0');
 
                 const startDate = new Date(currentYear, 3, 1).getTime();
-                const totalDuration = targetDate.getTime() - startDate;
-                const elapsed = currentDate.getTime() - startDate;
+                let percentage = ((currentDate.getTime() - startDate) / (targetDate.getTime() - startDate)) * 100;
                 
-                let percentage = (elapsed / totalDuration) * 100;
-                if(percentage > 100) percentage = 100;
-                if(percentage < 0) percentage = 0;
-
-                document.getElementById('timeProgress').style.width = percentage + '%';
+                document.getElementById('timeProgress').style.width = Math.min(Math.max(percentage, 0), 100) + '%';
             }
-            updateCountdown();
+            setTimeout(updateCountdown, 100); 
             setInterval(updateCountdown, 1000);
         }
         document.addEventListener('DOMContentLoaded', setupTimer);
 
-        /* =========================================
-           3. GENERADOR DE LLUVIA (Monedas/Hojas)
-           ========================================= */
-        function createParticle() {
-            const container = document.getElementById('particles-js');
-            if(!container) return;
-
-            const particle = document.createElement('div');
-            const isMoneda = Math.random() > 0.5;
-            particle.className = `particle ${isMoneda ? 'moneda' : 'hoja'}`;
-            
-            const startX = Math.random() * window.innerWidth;
-            particle.style.left = startX + 'px';
-            particle.style.top = '-40px'; 
-            
-            const duration = 8 + Math.random() * 7; 
-            particle.style.transition = `transform ${duration}s linear, opacity ${duration}s linear`;
-            container.appendChild(particle);
-
-            setTimeout(() => {
-                particle.style.transform = `translateY(${window.innerHeight + 100}px) rotate(${Math.random() * 360}deg)`;
-                particle.style.opacity = '0';
-            }, 50);
-
-            setTimeout(() => { particle.remove(); }, duration * 1000);
-        }
-        setInterval(createParticle, 600);
-
-        /* =========================================
-           4. EFECTO CORAZONES AL TOCAR LA PANTALLA
-           ========================================= */
+        /* 3. Corazones Optimizados */
         (function(){
             const layer = document.getElementById('heartLayer');
-            const COLORS = ["#bc13fe", "#ff007f", "#ffd700", "#ff9ad0", "#ffb3c7"];
-            const HEART_SVG = (fill) => `
-                <svg viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path fill="${fill}" d="M23.6 0c-2.9 0-5.4 1.5-6.6 3.8C15.8 1.5 13.3 0 10.4 0 4.7 0 0 4.8 0 10.6c0 6.9 5.3 12.1 13.3 18.4L16 29.6l2.7-0.6C26.7 22.7 32 17.5 32 10.6 32 4.8 27.3 0 23.6 0z"/>
-                </svg>`;
+            const COLORS = ["#bc13fe", "#ff007f", "#ffd700", "#ff9ad0"];
+            const HEART_SVG = (fill) => `<svg viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg"><path fill="${fill}" d="M23.6 0c-2.9 0-5.4 1.5-6.6 3.8C15.8 1.5 13.3 0 10.4 0 4.7 0 0 4.8 0 10.6c0 6.9 5.3 12.1 13.3 18.4L16 29.6l2.7-0.6C26.7 22.7 32 17.5 32 10.6 32 4.8 27.3 0 23.6 0z"/></svg>`;
 
             function createHeart(x, y) {
                 const el = document.createElement('span');
                 el.className = 'heart';
-                const sizeClass = Math.random();
-                if (sizeClass < 0.25) el.classList.add('small');
-                else if (sizeClass > 0.85) el.classList.add('large');
-                if (Math.random() < 0.35) el.classList.add('pop');
-
-                const color = COLORS[Math.floor(Math.random() * COLORS.length)];
-                el.innerHTML = HEART_SVG(color);
-
-                const rectSize = 36;
-                el.style.left = (x - (rectSize / 2)) + 'px';
-                el.style.top = (y - (rectSize / 2)) + 'px';
+                el.innerHTML = HEART_SVG(COLORS[Math.floor(Math.random() * COLORS.length)]);
+                el.style.left = (x - 15) + 'px';
+                el.style.top = (y - 15) + 'px';
                 el.style.transform = `rotate(${(Math.random() * 40) - 20}deg)`;
                 
-                const dur = 900 + Math.floor(Math.random() * 700);
-                el.style.animationDuration = dur + 'ms';
-                el.style.animationDelay = (Math.random() * 80) + 'ms';
-
                 layer.appendChild(el);
-                el.addEventListener('animationend', () => {
-                if (el && el.parentElement) el.parentElement.removeChild(el);
-                }, { once: true });
+                el.addEventListener('animationend', () => { el.remove(); }, { once: true });
             }
 
             function handlePointer(x, y) {
-                const count = 1 + Math.floor(Math.random() * 3);
+                const count = 1 + Math.floor(Math.random() * 2);
                 for (let i=0; i<count; i++){
-                createHeart(x + (Math.random() * 40 - 20), y + (Math.random() * 40 - 20));
+                    createHeart(x + (Math.random() * 20 - 10), y + (Math.random() * 20 - 10));
                 }
             }
 
             window.addEventListener('click', (e) => { handlePointer(e.clientX, e.clientY); });
             window.addEventListener('touchstart', (e) => {
-                for (let i = 0; i < e.touches.length; i++) handlePointer(e.touches[i].clientX, e.touches[i].clientY);
-            }, {passive:true});
-            window.addEventListener('touchmove', (e) => {
-                for (let i = 0; i < e.touches.length; i++){
-                if (Math.random() < 0.18) handlePointer(e.touches[i].clientX, e.touches[i].clientY);
-                }
+                handlePointer(e.touches[0].clientX, e.touches[0].clientY);
             }, {passive:true});
         })();
 
-        /* =========================================
-           5. MÚSICA Y EFECTO EN FOTO DE PERFIL
-           ========================================= */
+        /* 4. Audio Perfil */
         document.addEventListener("DOMContentLoaded", () => {
             const perfilWrapper = document.getElementById('perfil-wrapper');
             const bgAudio = new Audio("https://www.dropbox.com/scl/fi/sm7gtduc8eamj0c4bnryn/Alok_-Alan-Walker-Headlights-Lyrics-ft.-KIDDO-MP3_160K.mp3?rlkey=turyzxelynu77zog74kb1oajj&st=jeznsnl1&dl=1");
 
             perfilWrapper.addEventListener('click', (e) => {
                 e.stopPropagation(); 
-                if (bgAudio.paused) {
-                    bgAudio.play().catch(error => { console.log("Error de audio:", error); });
-                }
+                if (bgAudio.paused) bgAudio.play().catch(() => {});
                 perfilWrapper.classList.add('shake-active');
-                setTimeout(() => { perfilWrapper.classList.remove('shake-active'); }, 600);
+                setTimeout(() => { perfilWrapper.classList.remove('shake-active'); }, 400);
             });
         });
     </script>
 </body>
 </html>
+
 
 
 ```
