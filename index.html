@@ -362,11 +362,10 @@
     <script>
         /* 1. Temporizador */
         function setupTimer() {
-            const now = new Date();
-            const currentYear = now.getFullYear();
-            const targetDate = new Date(currentYear, 3, 30, 23, 59, 59); 
+            // Se actualizó para el 31 de mayo de 2026. (El mes 4 en JavaScript equivale a Mayo)
+            const targetDate = new Date(2026, 4, 31, 23, 59, 59); 
             
-            document.getElementById('end-date-text').innerText = "30 de Abril";
+            document.getElementById('end-date-text').innerText = "31 de Mayo";
 
             function updateCountdown() {
                 const currentDate = new Date();
@@ -378,7 +377,8 @@
                 document.getElementById('minutes').innerText = Math.floor((timeRemaining / 1000 / 60) % 60).toString().padStart(2, '0');
                 document.getElementById('seconds').innerText = Math.floor((timeRemaining / 1000) % 60).toString().padStart(2, '0');
 
-                const startDate = new Date(currentYear, 3, 1).getTime();
+                // Fecha de inicio de referencia para la barra de progreso (1 de Mayo de 2026)
+                const startDate = new Date(2026, 4, 1).getTime();
                 let percentage = ((currentDate.getTime() - startDate) / (targetDate.getTime() - startDate)) * 100;
                 
                 document.getElementById('timeProgress').style.width = Math.min(Math.max(percentage, 0), 100) + '%';
@@ -434,7 +434,3 @@
     </script>
 </body>
 </html>
-
-
-
-```
